@@ -13,6 +13,16 @@ var express = require('express'),
 		res.send('Hello People');
 	});
 
-	var sp = new SerialPort("INSERT SERIAL HERE", { 
+	var sp = new SerialPort("/dev/tty.usbmodemfd131", { 
 	    baudrate : 9600
+	});
+
+	sp.on('open', function(){
+
+		console.log("open");
+
+		sp.on('data', function(data){
+			console.log(data);
+		});
+
 	});
