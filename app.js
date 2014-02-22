@@ -1,9 +1,11 @@
 var express = require('express'),
 	app = express(),
 	server = require('http').createServer(app),
-	io = require('socket.io').listen(server);
+	io = require('socket.io').listen(server),
+	canWrite = false;
 
-	var SerialPort = require('serialport').SerialPort;
+	var serialport = require('serialport'),
+		SerialPort = serialport.SerialPort;
 
 	server.listen(3000);
 
@@ -13,9 +15,11 @@ var express = require('express'),
 		res.send('Hello People');
 	});
 
-	var sp = new SerialPort("/dev/tty.usbmodemfd131", { 
+	var port = /*"/dev/tty.usbmodemfd131"*/ "/dev/tty.usbmodem1411"
+
+	var sp = new SerialPort(port, { 
 	    baudrate : 9600,
-	    parser : '\n'
+	    parser: serialport.parsers.readline("\n")
 	});
 
 	sp.on('open', function(){
@@ -24,11 +28,8 @@ var express = require('express'),
 
 		sp.on('data', function(data){
 			console.log(data);
-
-			var buf = data;
-			var json = JSON.stringify(buf);
-		
-			console.log(json);
 		});
 
 	});
+
+	
