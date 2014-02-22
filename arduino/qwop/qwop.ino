@@ -14,7 +14,7 @@ boolean qwop[4] =  {0};
 void setup()                    
 {
    
-   Serial.begin(38400);
+   Serial.begin(19200);
    delay(200);
    pinMode(2, OUTPUT);
    
@@ -54,7 +54,7 @@ void loop(){
    
    boolean vals[4] = {false, false, false, false};
    
-   while(Serial.available()){
+   while(Serial.available() > 0){
     
       int incomingByte = 0;
       // read the incoming byte:
@@ -62,24 +62,32 @@ void loop(){
       
       if(incomingByte == 113){
         vals[0] = true;
+        Serial.print('q');
+        Serial.print(vals[0]);
+        Serial.println();
       } else if(incomingByte == 119){
         vals[1] = true;
+        Serial.print('w');
+        Serial.print(vals[1]);
+        Serial.println();  
       } else if(incomingByte == 111){
         vals[2] = true;
+        Serial.print('o');
+        Serial.print(vals[2]);
+        Serial.println();
       } else if(incomingByte == 112){
        vals[3] = true;
+       Serial.print('p');
+       Serial.print(vals[3]);
+       Serial.println();
       }
-      
-      for(int y = 0; y < 4; y ++){        
-         Serial.print(vals[y]);
-      }
-      
-      Serial.print('\n');
-      
-     }
+      Serial.println(">>>>>>>>>>>>>>>");
+//      Serial.println(incomingByte);
      
-
-
+   }
+   
+   delay(100);
+  
 }
 
 

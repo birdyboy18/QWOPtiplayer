@@ -18,8 +18,8 @@ var express = require('express'),
 	});
 
 
-	/*var sp = new SerialPort("/dev/tty.usbmodemfd131", { 
-	    baudrate : 9600,
+	var sp = new SerialPort("/dev/tty.usbmodem1451", { 
+	    baudrate : 19200,
 	    parser: serialport.parsers.readline("\n")
 	});
 
@@ -27,11 +27,13 @@ var express = require('express'),
 
 		console.log("open");
 
+		canWrite = true;
+
 		sp.on('data', function(data){
 			console.log(data);
 		});
 
-	});*/
+	});
 
     var playerCount = 0;
 
@@ -110,10 +112,12 @@ var express = require('express'),
 
 		}
 
-		console.log("Hello");
-
 		if(canWrite){
 			sp.write(keyString);
 		}
 
 	}
+
+	setInterval(function(){
+		// sendToArduino([true, false, true, false]);
+	}, 1000);
