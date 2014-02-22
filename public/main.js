@@ -1,6 +1,15 @@
 $(document).on('ready',function(){
     
+    var appHeight = $(window).innerHeight();
+    $('#tray').height(appHeight*.2);
+    //$('.button').css("lineHeight",appHeight*.2);
     
+    $(window).on('resize',function(){
+        appHeight = $(window).innerHeight();
+        $('#tray').height(appHeight*.2);
+        $('.button').css({lineHeight:appHeight*.2});
+        console.log('resize');
+    });
     
     
     /////////////////
