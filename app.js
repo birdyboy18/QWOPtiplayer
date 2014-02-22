@@ -23,6 +23,11 @@ var express = require('express'),
 
 		sp.on('data', function(data){
 			console.log(data);
+
+			var buf = data;
+			var json = JSON.stringify(buf);
+		
+			console.log(json);
 		});
 
 	});
