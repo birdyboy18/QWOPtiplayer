@@ -15,13 +15,8 @@ var express = require('express'),
 		res.sendFile('index.html');
 	});
 
-<<<<<<< HEAD
-	var port = /*"/dev/tty.usbmodemfd131"*/ "/dev/tty.usbmodem1411"
 
-	var sp = new SerialPort(port, { 
-=======
 	/*var sp = new SerialPort("/dev/tty.usbmodemfd131", { 
->>>>>>> e17e85fcf1f7a3d92ebba37982caedc3ad9e0fcb
 	    baudrate : 9600,
 	    parser: serialport.parsers.readline("\n")
 	});
@@ -34,11 +29,6 @@ var express = require('express'),
 			console.log(data);
 		});
 
-<<<<<<< HEAD
-	});
-
-	
-=======
 	});*/
 
 	var players = {};
@@ -60,4 +50,4 @@ var express = require('express'),
 		});
 
 	});
->>>>>>> e17e85fcf1f7a3d92ebba37982caedc3ad9e0fcb
+
