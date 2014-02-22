@@ -46,11 +46,10 @@
 
     #bars {
 		position:absolute;
-		bottom:0;
+		bottom:20%;
 		left:0;
     	width: 100%;
-    	height:100%;
-    	padding-bottom:20%;
+    	height:80%;
     }
 
     .bar {
@@ -62,7 +61,7 @@
     	width: 25%;
     	float:left;
     	position:absolute;
-    	bottom:20%;
+    	bottom:0;
     }
 
     #q,#qbar {background:#2ecc71;}
@@ -74,10 +73,32 @@
     #wbar {left:25%;}
     #obar {left:50%;}
     #pbar {left:75%;}
+
+    .halfway {
+    	border-bottom: 2px dashed #aaa;
+    	position:absolute;
+    	top:40%;
+    	width:100%;
+    	z-index: 100;
+    }
+
+    .halfway p {
+    	position:absolute;
+    	top: -20px;
+    	left: 20px;
+    	text-transform:uppercase;
+    	line-spacing: 10px;
+    	font-weight: 400;
+    	color:#aaa;
+    }
     
 </style>
 
 <body>
+
+<div class="halfway">
+	<p>threshold</p>
+</div>
 
 <div id="bars">
 	<div id="qbar" class="bar"></div>
