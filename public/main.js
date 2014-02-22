@@ -1,6 +1,6 @@
 $(document).on('ready',function(){
 
-    var key[false,false,false,false];
+    var key = [false,false,false,false];
     
     var socket = io.connect();
              
