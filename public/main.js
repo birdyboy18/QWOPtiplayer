@@ -19,7 +19,9 @@ $(document).on('ready',function(){
     }
     
     
-    
+    $('#q').on('click',function(){
+        sendKeyState();
+    });
 
 });
 
