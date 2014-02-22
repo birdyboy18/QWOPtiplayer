@@ -82,6 +82,11 @@ var express = require('express'),
         game.arduinoKeys[3] = Math.round((pCount / playerCount)) > .5 ? true : false;
     
         console.log(playerCount,game.arduinoKeys);
+        var democracy = {
+        	playerCount: playercount,
+        	keys: game.ardunioKeys
+        }
+        io.sockets.emit('democracy', democracy);
         
         
 	}
