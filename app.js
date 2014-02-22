@@ -13,7 +13,7 @@ var express = require('express'),
 	app.use(express.static(__dirname + "/public"));
 
 	app.get('/',function(req,res){
-		res.send('Hello People');
+		res.sendFile('index.html');
 	});
 
 	var sp = new SerialPort("/dev/tty.usbmodemfd131", { 
