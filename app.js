@@ -2,10 +2,7 @@ var express = require('express'),
 	app = express(),
 	server = require('http').createServer(app),
 	io = require('socket.io').listen(server),
-	canWrite = false;
-
-	var serialport = require('serialport'),
-		SerialPort = serialport.SerialPort;
+    applescript = require("applescript");
 
 	server.listen(3000);
 
@@ -95,32 +92,3 @@ var express = require('express'),
         
         
 	}
-
-	function sendToArduino(dasKeys){
-
-		var keys = dasKeys || game.arduinoKeys,
-			keyIndexes = ["q", "w", "o", "p"];
-			keyString = "";
-
-		for(var x = 0; x < keys.length; x += 1){
-
-			switch(keys[x]){
-				case true:
-					keyString += keyIndexes[x];
-					break;
-				case false:
-					keyString += "s"
-					break;
-			}
-
-		}
-
-		if(canWrite){
-			sp.write(keyString);
-		}
-
-	}
-
-	setInterval(function(){
-		// sendToArduino([true, false, true, false]);
-	}, 1000);

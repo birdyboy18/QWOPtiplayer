@@ -1,7 +1,17 @@
 $(document).on('ready',function(){
     
     /////////////////
-
+    
+    checkTray();
+    
+    function checkTray(){
+        $('.button').css("line-height", $('#tray').height()+"px");
+    }
+    
+    $(window).on('resize',function(){
+        checkTray();
+    });
+    
     var keys = [false,false,false,false];
     
     var socket = io.connect(window.location.hostname);
