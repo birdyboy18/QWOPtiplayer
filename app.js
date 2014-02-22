@@ -7,6 +7,9 @@ var express = require('express'),
 
 	server.listen(3000);
 
+	var players = {};
+	var game = {};
+
 	app.use(express.static(__dirname + "/public"));
 
 	app.get('/',function(req,res){
@@ -29,6 +32,22 @@ var express = require('express'),
 			var json = JSON.stringify(buf);
 		
 			console.log(json);
+		});
+
+	});
+
+	io.sockets.on('connnection', function(socket){
+		
+		socket.keys = [false,false,false,false];
+
+		socket.on('enter', function(data){
+			var players[socket.id] = data;
+			io.sockets.emit('players', players);
+		});
+
+		socket.on('disconnect', function(){
+			delete players[socket.id];
+			io.sockets.emit('players', players);
 		});
 
 	});
