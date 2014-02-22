@@ -57,11 +57,11 @@ $(document).on('ready',function(){
         sendKeyState();
     });
     
-    $('#o').on('mousedown mouseup touchstart touchend',function(event){
+    $('#o').on('mousedown mouseup touchstart touchend mouseleave',function(event){
         
         if(event.type == "touchstart" || event.type == "mousedown"){
             keys[2] = true;
-        } else if (event.type == "touchend" || event.type == "mouseup"){
+        } else if (event.type == "touchend" || event.type == "mouseup" || event.type == "mouseleave"){
             keys[2] = false;
         }
         
