@@ -19,10 +19,12 @@ $(document).on('ready',function(){
     }
     
     
-    $('#q').on('click touchstart touchend',function(event){
+    $('#q').on('mousedown mouseup touchstart touchend',function(event){
         
-        if(event.type == "touchstart"){
-        
+        if(event.type == "touchstart" || event.type == "mousedown"){
+            keys[0] = true;
+        } else if (event.type == "touchend" || event.type == "mouseup"){
+            keys[0] = false;
         }
         
         sendKeyState();
