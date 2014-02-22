@@ -41,7 +41,7 @@ var express = require('express'),
 		socket.keys = [false,false,false,false];
 
 		socket.on('enter', function(data){
-			var players[socket.id] = data;
+			players[socket.id] = data;
 			io.sockets.emit('players', players);
 		});
 
