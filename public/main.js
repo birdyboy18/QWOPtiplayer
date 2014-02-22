@@ -1,18 +1,17 @@
 $(document).on('ready',function(){
     
-    var appHeight = $(window).innerHeight();
+    /////////////////
     
+    checkTray();
+    
+    function checkTray(){
+        $('.button').css("line-height", $('#tray').height()+"px");
+    }
     
     $(window).on('resize',function(){
-        appHeight = $(window).innerHeight();
-        $('#tray').height(appHeight*.2);
-        $('.button').css({lineHeight:appHeight*.2});
-        console.log('resize');
+        checkTray();
     });
     
-    
-    /////////////////
-
     var keys = [false,false,false,false];
     
     var socket = io.connect(window.location.hostname);
@@ -27,6 +26,8 @@ $(document).on('ready',function(){
     
     socket.on('democracy',function(data){
          console.log(data);
+         updateBar(data);
+
     });
     
     function sendKeyState(){
@@ -77,6 +78,23 @@ $(document).on('ready',function(){
         
         sendKeyState();
     });
+
+    function updateBar(data) {
+    	var bars = document.getElementsByClassName('bar');
+
+    	$('.playerCounter').html(data.playerCount + " players");
+    		
+    	for (var i=0; i < 4; i++) {
+
+    		var barPercent = (data.counts[i]/data.playerCount)*100;
+
+    		console.log(barPercent);
+
+    		$(bars[i]).css('height', barPercent + "%");
+
+    	}
+
+    }
 
 });
 

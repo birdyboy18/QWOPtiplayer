@@ -36,7 +36,7 @@
     
     .button{	
     	width:25%;
-    	padding: 50px 0;
+    	/*padding: 50px 0;*/
     	font-size:2em;
     	text-align:center;
     	float:left;
@@ -46,10 +46,10 @@
 
     #bars {
 		position:absolute;
-		bottom:0;
+		bottom:20%;
 		left:0;
     	width: 100%;
-    	height:auto;
+    	height:80%;
     }
 
     .bar {
@@ -60,16 +60,58 @@
     	transition: all 0.3s;
     	width: 25%;
     	float:left;
+        height:0%;
+    	position:absolute;
+    	bottom:0;
     }
 
     #q,#qbar {background:#2ecc71;}
     #w,#wbar{background:#3498db;}
     #o,#obar {background:#e67e22;}
     #p,#pbar {background:#e74c3c;}
+
+    #qbar {left:0;}
+    #wbar {left:25%;}
+    #obar {left:50%;}
+    #pbar {left:75%;}
+
+    .halfway {
+    	border-bottom: 2px dashed #aaa;
+    	position:absolute;
+    	top:40%;
+    	width:100%;
+    	z-index: 100;
+    }
+
+    .halfway p {
+    	position:absolute;
+    	top: -20px;
+    	left: 20px;
+    	text-transform:uppercase;
+    	line-spacing: 10px;
+    	font-weight: 400;
+    	color:#aaa;
+    }
+
+    .playerCounter {
+    	font-size: 32px;
+    	position:absolute;
+    	top:0;
+    	right:0;
+    	padding: 20px;
+    	color: rgba(0,0,0,0.3);
+    	z-index:100;
+    }
     
 </style>
 
 <body>
+
+<div class="playerCounter"></div>
+
+<div class="halfway">
+	<p>threshold</p>
+</div>
 
 <div id="bars">
 	<div id="qbar" class="bar"></div>

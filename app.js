@@ -2,6 +2,7 @@ var express = require('express'),
 	app = express(),
 	server = require('http').createServer(app),
 	io = require('socket.io').listen(server),
+
 	canWrite = false;
 
 	var applescript = require("applescript");
@@ -70,7 +71,10 @@ var express = require('express'),
         console.log(playerCount,game.arduinoKeys);
         var democracy = {
         	playerCount: playerCount,
-        	keys: game.ardunioKeys
+        	keys: game.arduinoKeys,
+        	counts:[
+        		qCount,wCount,oCount,pCount
+        	]
         }
         io.sockets.emit('democracy', democracy);
         
