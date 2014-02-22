@@ -3,7 +3,7 @@ var express = require('express'),
 	server = require('http').createServer(app),
 	io = require('socket.io').listen(server);
 
-	SerialPort = require('serialport').SerialPort;
+	var SerialPort = require('serialport').SerialPort;
 
 	server.listen(3000);
 
@@ -13,4 +13,6 @@ var express = require('express'),
 		res.send("Hello People");
 	});
 
-
+	var sp = new SerialPort("INSERT SERIAL HERE", { 
+	    baudrate : 9600
+	});
