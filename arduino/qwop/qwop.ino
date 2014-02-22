@@ -37,7 +37,7 @@ void loop(){
    // change values here 
    boolean qwop[4] =  {false,false,false,false};
  
-    for (int i=0; i <= 3; i++){
+   for (int i=0; i <= 3; i++){
       if(qwop[i]){
           check_port();
           keysend[port] = 4;
@@ -69,16 +69,18 @@ void loop(){
       } else if(incomingByte == 112){
        vals[3] = true;
       }
+     
       
-      for(int y = 0; y < 4; y ++){        
-         Serial.print(vals[y]);
-      }
       
-      Serial.print('\n');
       
      }
      
-
+     for(int y = 0; y < 4; y ++){        
+         Serial.write(vals[y]);
+      }
+      
+      Serial.print('\n');
+    
 
 }
 
