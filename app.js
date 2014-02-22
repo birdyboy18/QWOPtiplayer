@@ -4,6 +4,8 @@ var express = require('express'),
 	io = require('socket.io').listen(server),
 	canWrite = false;
 
+	var applescript = require("applescript");
+
 	var serialport = require('serialport'),
 		SerialPort = serialport.SerialPort;
 
@@ -15,24 +17,6 @@ var express = require('express'),
 
 	app.get('/',function(req,res){
 		res.sendFile('index.html');
-	});
-
-
-	var sp = new SerialPort("/dev/tty.usbmodem1451", { 
-	    baudrate : 19200,
-	    parser: serialport.parsers.readline("\n")
-	});
-
-	sp.on('open', function(){
-
-		console.log("open");
-
-		canWrite = true;
-
-		sp.on('data', function(data){
-			console.log(data);
-		});
-
 	});
 
     var playerCount = 0;
@@ -90,7 +74,7 @@ var express = require('express'),
         }
         io.sockets.emit('democracy', democracy);
         
-        
+        sendToArduino();
 	}
 
 	function sendToArduino(dasKeys){
@@ -103,10 +87,11 @@ var express = require('express'),
 
 			switch(keys[x]){
 				case true:
-					keyString += keyIndexes[x];
+					// keyString += keyIndexes[x];
+					triggerKey(keyIndexes[x]);
 					break;
 				case false:
-					keyString += "s"
+					// keyString += "s"
 					break;
 			}
 
@@ -120,4 +105,43 @@ var express = require('express'),
 
 	setInterval(function(){
 		// sendToArduino([true, false, true, false]);
+		// triggerKey("q");
 	}, 1000);
+
+	//w 13 q12 o31 p35
+
+
+
+	function triggerKey(key){
+
+		console.log(key);
+
+		if(key == "q"){
+			key = 12;
+		} else if(key == "w"){
+			key = 13;
+		} else if(key == "o"){
+			key = 31;
+		} else if(key == "p"){
+			key = 35;
+		} else {
+			return;
+		}
+		
+
+
+		// var script = 'tell application "Firefox" to keystroke "q"';
+		var script = "tell application \"System Events\" to tell process \"Safari\" to key code " + key;
+
+		applescript.execString(script, function(err, rtn) {
+		  if (err) {
+		    // Something went wrong!
+		    console.log(err);
+		  }
+		  if (Array.isArray(rtn)) {
+		    rtn.forEach(function(songName) {
+		      console.log(songName);
+		    });
+		  }
+		});
+	}
