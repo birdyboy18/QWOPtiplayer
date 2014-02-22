@@ -2,11 +2,11 @@ $(document).on('ready',function(){
 
     var key = [false,false,false,false];
     
-    var socket = io.connect();
+    var socket = io.connect(window.location.hostname);
              
         socket.emit('enter',{message: "Hello"});
     
-        socket.on('player',function(data){
+        socket.on('players',function(data){
             console.log(data);
         });
     
