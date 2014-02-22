@@ -83,7 +83,7 @@ var express = require('express'),
     
         console.log(playerCount,game.arduinoKeys);
         var democracy = {
-        	playerCount: playercount,
+        	playerCount: playerCount,
         	keys: game.ardunioKeys
         }
         io.sockets.emit('democracy', democracy);
