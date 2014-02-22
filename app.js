@@ -107,10 +107,10 @@ var express = require('express'),
 
 	}
 
-	setInterval(function(){
+	/*setInterval(function(){
 		// sendToArduino([true, false, true, false]);
 		// triggerKey("q");
-	}, 1000);
+	}, 1000);*/
 
 	//w 13 q12 o31 p35
 
@@ -135,7 +135,7 @@ var express = require('express'),
 
 
 		// var script = 'tell application "Firefox" to keystroke "q"';
-		var script = "tell application \"System Events\" to tell process \"Safari\" to key code " + key;
+		var script = "tell application \"System Events\" to key code " + key;
 
 		applescript.execString(script, function(err, rtn) {
 		  if (err) {
