@@ -36,19 +36,19 @@ var express = require('express'),
 	var players = {};
 	var game = {};
 
-	io.sockets.on('connnection', function(socket){
+	io.sockets.on('connection', function(socket){
 		
 		socket.keys = [false,false,false,false];
 
-		socket.on('enter', function(data){
+		socket.on('tesco', function(data){
 			players[socket.id] = data;
             console.log(data);
-			io.sockets.emit('players', players);
+			socket.emit('players', players);
 		});
 
 		socket.on('disconnect', function(){
 			delete players[socket.id];
-			io.sockets.emit('players', players);
+            io.sockets.emit('players', players);
 		});
 
 	});
