@@ -32,22 +32,26 @@ var express = require('express'),
 	});*/
 
 	var players = {};
-	var game = {};
+	var game = {
+		arduinoKeys = [false,false,false,false]
+	};
 
 	io.sockets.on('connection', function(socket){
-		
-		socket.keys = [false,false,false,false];
 
-		socket.on('tesco', function(data){
-			players[socket.id] = data;
-            console.log(data);
-			socket.emit('players', players);
+		socket.on('keys', function(data){
+			players[socket.id].keys = data;
 		});
 
 		socket.on('disconnect', function(){
 			delete players[socket.id];
-            io.sockets.emit('players', players);
 		});
 
 	});
+
+	function updateKeys() {
+		for ( var id in players) {
+			var player = players[id];
+			console.log(player.keys);
+		}
+	}
 
