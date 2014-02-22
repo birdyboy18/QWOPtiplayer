@@ -1,6 +1,6 @@
 $(document).on('ready',function(){
 
-    var key = [false,false,false,false];
+    var keys = [false,false,false,false];
     
     var socket = io.connect(window.location.hostname);
              
@@ -11,6 +11,13 @@ $(document).on('ready',function(){
         socket.on('players',function(data){
             console.log(data);
         });
+    
+        
+    
+    function sendKeyState(){
+        socket.emit('keys',keys);
+    }
+    
     
     
 
