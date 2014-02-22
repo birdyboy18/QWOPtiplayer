@@ -14,7 +14,8 @@ var express = require('express'),
 	});
 
 	var sp = new SerialPort("/dev/tty.usbmodemfd131", { 
-	    baudrate : 9600
+	    baudrate : 9600,
+	    parser : '\n'
 	});
 
 	sp.on('open', function(){
