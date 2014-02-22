@@ -6,7 +6,7 @@ $(document).on('ready',function(){
              
     //socket    
     
-    socket.emit('tesco',{message: "Hello"});
+    //socket.emit('tesco',{keys:keys});
     
         socket.on('players',function(data){
             console.log(data);
@@ -19,7 +19,16 @@ $(document).on('ready',function(){
     }
     
     
-    
+    $('#q').on('mousedown mouseup touchstart touchend',function(event){
+        
+        if(event.type == "touchstart" || event.type == "mousedown"){
+            keys[0] = true;
+        } else if (event.type == "touchend" || event.type == "mouseup"){
+            keys[0] = false;
+        }
+        
+        sendKeyState();
+    });
 
 });
 
