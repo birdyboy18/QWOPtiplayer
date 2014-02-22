@@ -16,23 +16,25 @@ var express = require('express'),
 	});
 
 
-	/*var sp = new SerialPort("/dev/tty.usbmodemfd131", { 
+	var sp = new SerialPort("/dev/tty.usbmodem1411", { 
 	    baudrate : 9600,
 	    parser: serialport.parsers.readline("\n")
 	});
 
 	sp.on('open', function(){
 
-		console.log("open");
+		canWrite = true;
 
 		sp.on('data', function(data){
 			console.log(data);
 		});
 
-	});*/
+	});
 
 	var players = {};
-	var game = {};
+	var game = {
+		arduinoKeys : [false, false, false, false]
+	};
 
 	io.sockets.on('connection', function(socket){
 		
@@ -44,6 +46,11 @@ var express = require('express'),
 			socket.emit('players', players);
 		});
 
+		socket.on('keys', function(data){
+			socket.keys = data;
+
+		});
+
 		socket.on('disconnect', function(){
 			delete players[socket.id];
             io.sockets.emit('players', players);
@@ -51,3 +58,35 @@ var express = require('express'),
 
 	});
 
+	function sendToArduino(dasKeys){
+
+		var keys = dasKeys || game.arduinoKeys,
+			keyIndexes = ["q", "w", "o", "p"];
+			keyString = "";
+
+		for(var x = 0; x < keys.length; x += 1){
+
+			switch(keys[x]){
+				case true:
+					keyString += keyIndexes[x];
+					break;
+				case false:
+					keyString += "s"
+					break;
+			}
+
+		}
+
+		console.log("Hello");
+
+		if(canWrite){
+			sp.write(keyString);
+		}
+
+	}
+
+//sendToArduino([true, true, false, true]);
+
+setInterval(function(){
+	sendToArduino();
+}, 1000);

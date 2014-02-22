@@ -50,6 +50,10 @@ void loop(){
    boolean o = false;
    boolean p = false;
    
+   char data;
+   
+   boolean vals[4] = {false, false, false, false};
+   
    while(Serial.available()){
     
       int incomingByte = 0;
@@ -57,19 +61,24 @@ void loop(){
       incomingByte = Serial.read();
       
       if(incomingByte == 113){
-        q = true;
+        vals[0] = true;
       } else if(incomingByte == 119){
-        w = true;
+        vals[1] = true;
       } else if(incomingByte == 111){
-        o = true; 
+        vals[2] = true;
       } else if(incomingByte == 112){
-        p = true;
+       vals[3] = true;
       }
       
+      for(int y = 0; y < 4; y ++){        
+         Serial.print(vals[y]);
+      }
       
-      Serial.println(incomingByte);
+      Serial.print('\n');
       
      }
+     
+
 
 }
 
