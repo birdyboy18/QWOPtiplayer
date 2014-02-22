@@ -2,7 +2,7 @@
 
 uint8_t keysend[8] = { 0 };
 int port = 1;
-boolean qwop[4] =  {false,true,false,false};
+boolean qwop[4] =  {0};
 
 
 // add these togther to have multiple
@@ -33,12 +33,14 @@ void loop(){
     keysend[7] = 0;
     
     port = 1;
+    
+   // change values here 
+   boolean qwop[4] =  {false,false,false,false};
  
     for (int i=0; i <= 3; i++){
       if(qwop[i]){
           check_port();
           keysend[port] = 4;
-      
       }
       
    }
