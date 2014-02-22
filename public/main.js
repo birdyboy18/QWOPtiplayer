@@ -71,6 +71,8 @@ $(document).on('ready',function(){
 
     function updateBar(data) {
     	var bars = document.getElementsByClassName('bar');
+
+    	$('.playerCounter').html(data.playerCount + " players");
     		
     	for (var i=0; i < 4; i++) {
 
