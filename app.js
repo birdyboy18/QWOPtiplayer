@@ -18,7 +18,7 @@ var express = require('express'),
 	});
 
 
-	var sp = new SerialPort("/dev/tty.usbmodem1451", { 
+	/*var sp = new SerialPort("/dev/tty.usbmodem1451", { 
 	    baudrate : 19200,
 	    parser: serialport.parsers.readline("\n")
 	});
@@ -33,7 +33,7 @@ var express = require('express'),
 			console.log(data);
 		});
 
-	});
+	});*/
 
     var playerCount = 0;
 
@@ -86,7 +86,10 @@ var express = require('express'),
         console.log(playerCount,game.arduinoKeys);
         var democracy = {
         	playerCount: playerCount,
-        	keys: game.ardunioKeys
+        	keys: game.arduinoKeys,
+        	counts:[
+        		qCount,wCount,oCount,pCount
+        	]
         }
         io.sockets.emit('democracy', democracy);
         
