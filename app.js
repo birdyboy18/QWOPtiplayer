@@ -135,7 +135,7 @@ var express = require('express'),
 
 
 		// var script = 'tell application "Firefox" to keystroke "q"';
-		var script = "tell application \"System Events\" to key down " + key;
+		var script = "tell application \"System Events\" to key code " + key;
 
 		applescript.execString(script, function(err, rtn) {
 		  if (err) {
