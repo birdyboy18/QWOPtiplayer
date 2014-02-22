@@ -4,7 +4,7 @@ $(document).on('ready',function(){
     
     var socket = io.connect();
              
-        socket.emit('enter','hello');
+        socket.emit('enter',{message: "Hello"});
     
         socket.on('player',function(data){
             console.log(data);
