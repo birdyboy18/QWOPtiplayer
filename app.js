@@ -7,16 +7,13 @@ var express = require('express'),
 
 	server.listen(3000);
 
-	var players = {};
-	var game = {};
-
 	app.use(express.static(__dirname + "/public"));
 
 	app.get('/',function(req,res){
 		res.sendFile('index.html');
 	});
 
-	var sp = new SerialPort("/dev/tty.usbmodemfd131", { 
+	/*var sp = new SerialPort("/dev/tty.usbmodemfd131", { 
 	    baudrate : 9600,
 	    parser : '\n'
 	});
@@ -34,7 +31,10 @@ var express = require('express'),
 			console.log(json);
 		});
 
-	});
+	});*/
+
+	var players = {};
+	var game = {};
 
 	io.sockets.on('connnection', function(socket){
 		
