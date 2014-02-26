@@ -2,15 +2,9 @@ var express = require('express'),
 	app = express(),
 	server = require('http').createServer(app),
 	io = require('socket.io').listen(server),
+    mac_control = require("mac_control");
 
-	canWrite = false;
-
-	var applescript = require("applescript");
-
-	var serialport = require('serialport'),
-		SerialPort = serialport.SerialPort;
-
-	server.listen(3000);
+	server.listen(8080);
 
     io.set( 'log level', 1 );
 
@@ -23,8 +17,10 @@ var express = require('express'),
     var playerCount = 0;
 
 	var players = {};
+
 	var game = {
-		arduinoKeys : [false,false,false,false]
+        pressed : [false,false,false,false],
+		keys : [false,false,false,false]
 	};
 
 	io.sockets.on('connection', function(socket){
@@ -47,11 +43,15 @@ var express = require('express'),
 	});
 
 	function updateKeys() {
+        
+        // set counts to 0
         var qCount = 0;
         var wCount = 0;
         var oCount = 0;
         var pCount = 0;
         
+        
+        // then count each player pressing a button
 		for ( var id in players) {
             
 			var player = players[id];
@@ -61,14 +61,9 @@ var express = require('express'),
             if(player.keys[2]) oCount++;
             if(player.keys[3]) pCount++;
                 	
-		}
+        }
         
-        game.arduinoKeys[0] = Math.round((qCount / playerCount)) > .5 ? true : false;
-        game.arduinoKeys[1] = Math.round((wCount / playerCount)) > .5 ? true : false;
-        game.arduinoKeys[2] = Math.round((oCount / playerCount)) > .5 ? true : false;
-        game.arduinoKeys[3] = Math.round((pCount / playerCount)) > .5 ? true : false;
-    
-        console.log(playerCount,game.arduinoKeys);
+        // object to send to connected clients to generate bars
         var democracy = {
         	playerCount: playerCount,
         	keys: game.arduinoKeys,
@@ -76,76 +71,54 @@ var express = require('express'),
         		qCount,wCount,oCount,pCount
         	]
         }
+        
+        // then send the object
         io.sockets.emit('democracy', democracy);
         
-        sendToArduino();
+        // now work out which keys to send to the system
+        game.keys[0] = Math.round((qCount / playerCount)) > .5 ? true : false;
+        game.keys[1] = Math.round((wCount / playerCount)) > .5 ? true : false;
+        game.keys[2] = Math.round((oCount / playerCount)) > .5 ? true : false;
+        game.keys[3] = Math.round((pCount / playerCount)) > .5 ? true : false;
+        
+        sendKeysToSystem();
 	}
 
-	function sendToArduino(dasKeys){
+    function sendKeysToSystem(){
+        
+        hasKeyChanged(0,12); // q
+        hasKeyChanged(1,13); // w
+        hasKeyChanged(2,31); // o
+        hasKeyChanged(3,35); // p
+        
+    }
 
-		var keys = dasKeys || game.arduinoKeys,
-			keyIndexes = ["q", "w", "o", "p"];
-			keyString = "";
-
-		for(var x = 0; x < keys.length; x += 1){
-
-			switch(keys[x]){
-				case true:
-					// keyString += keyIndexes[x];
-					triggerKey(keyIndexes[x]);
-					break;
-				case false:
-					// keyString += "s"
-					break;
-			}
-
-		}
-
-		if(canWrite){
-			sp.write(keyString);
-		}
-
-	}
-
-	/*setInterval(function(){
-		// sendToArduino([true, false, true, false]);
-		// triggerKey("q");
-	}, 1000);*/
-
-	//w 13 q12 o31 p35
+function hasKeyChanged(index,keycode){
+            if(game.keys[index]){
+                if(game.pressed[index]){
+                    // true -> true = no change
+                    game.pressed[index] = true;
+                } else {
+                    // false -> true = change
+                    mac_control.press(keycode);
+                    game.pressed[index] = true;
+                }   
+            } else {
+                if(game.pressed[index]){
+                    // true -> false = change
+                    mac_control.release(keycode);
+                    game.pressed[index] = false;
+                } else {
+                    // false -> false = no change
+                    game.pressed[index] = false;
+                }   
+            }
+    }
 
 
+function spacebar(){
+    mac_control.press(49);
+    mac_control.release(49);
+} 
 
-	function triggerKey(key){
-
-		console.log(key);
-
-		if(key == "q"){
-			key = 12;
-		} else if(key == "w"){
-			key = 13;
-		} else if(key == "o"){
-			key = 31;
-		} else if(key == "p"){
-			key = 35;
-		} else {
-			return;
-		}
-		
-
-
-		// var script = 'tell application "Firefox" to keystroke "q"';
-		var script = "tell application \"System Events\" to key code " + key;
-
-		applescript.execString(script, function(err, rtn) {
-		  if (err) {
-		    // Something went wrong!
-		    console.log(err);
-		  }
-		  if (Array.isArray(rtn)) {
-		    rtn.forEach(function(songName) {
-		      console.log(songName);
-		    });
-		  }
-		});
-	}
+setInterval(spacebar,2000);
